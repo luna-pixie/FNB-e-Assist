@@ -1,0 +1,42 @@
+User: What is my current account balance?
+GPT: Failed to load API key.
+--------------------------------------------------
+User: Show my recent transactions
+GPT: Failed to load API key.
+--------------------------------------------------
+User: What is my current account balance?
+GPT: Failed to load API key.
+--------------------------------------------------
+User: What is my current account balance?
+GPT: Error: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+
+--------------------------------------------------
+User: What is my current account balance?
+GPT: Error: 'builtin_function_or_method' object has no attribute 'chat'
+--------------------------------------------------
+User: What is my current account balance?
+GPT: Failed to load API key.
+--------------------------------------------------
+User: How can I open a savings account?
+GPT: Failed to load API key.
+--------------------------------------------------
+User: What is my current account balance?
+GPT: Error: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+
+--------------------------------------------------
