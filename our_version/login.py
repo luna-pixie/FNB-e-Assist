@@ -4,22 +4,66 @@ from dashboard import Dashboard
 
 class Ui_LoginWindow(object):
     def beginLogin(self, LoginWindow):
-        LoginWindow.setWindowTitle("Login Page")
-        LoginWindow.resize(400, 250)
+        LoginWindow.setWindowTitle("FNB - Login")
+        LoginWindow.resize(1366, 768)  
+        LoginWindow.setStyleSheet("background-color: #f5f5f5;")  # Light background
+
         self.centralwidget = QtWidgets.QWidget(LoginWindow)
-
         layout = QtWidgets.QVBoxLayout(self.centralwidget)
+        layout.setContentsMargins(100, 100, 100, 100)
+        layout.setSpacing(20)
 
+        # FNB Logo 
+        self.logo = QtWidgets.QLabel()
+        self.logo.setPixmap(QtGui.QPixmap("images/fnb_logo.png").scaled(300, 300, QtCore.Qt.KeepAspectRatio))
+        self.logo.setAlignment(QtCore.Qt.AlignCenter)
+        layout.addWidget(self.logo)
+
+        # Welcome label
+        self.title = QtWidgets.QLabel("Welcome to FNB")
+        self.title.setStyleSheet("font-size: 24px; font-weight: bold; color: #002663;")
+        self.title.setAlignment(QtCore.Qt.AlignCenter)
+        layout.addWidget(self.title)
+
+        # Username field
         self.username_input = QtWidgets.QLineEdit()
         self.username_input.setPlaceholderText("Username")
+        self.username_input.setStyleSheet("""
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        """)
         layout.addWidget(self.username_input)
 
+        # Password field
         self.password_input = QtWidgets.QLineEdit()
         self.password_input.setPlaceholderText("Password")
         self.password_input.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.password_input.setStyleSheet("""
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        """)
         layout.addWidget(self.password_input)
 
+        # Login button
         self.login_button = QtWidgets.QPushButton("Login")
+        self.login_button.setStyleSheet("""
+            QPushButton {
+                background-color: #FFD100;
+                color: #002663;
+                font-weight: bold;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: #e6b800;
+            }
+        """)
         layout.addWidget(self.login_button)
 
         LoginWindow.setCentralWidget(self.centralwidget)
@@ -43,6 +87,5 @@ class Ui_LoginWindow(object):
     def open_dashboard(self):
         self.window = Dashboard(self.username_input.text())
         self.window.show()
-        self.centralwidget.window().close() 
-
+        self.centralwidget.window().close()
 
