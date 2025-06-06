@@ -1,57 +1,67 @@
-from PyQt5 import QtWidgets
-from api_chatgpt import send_to_gpt
-from response_page import ResponsePage
-from history import save_to_history
+from PyQt5 import QtCore, QtGui, QtWidgets
+from e_Assist import Eassist
 
-class Dashboard(QtWidgets.QWidget):
+class Dashboard(QtWidgets.QMainWindow):
     def __init__(self, username):
         super().__init__()
         self.username = username
-        self.setWindowTitle(f"Welcome {username}")
-        self.setGeometry(100, 100, 500, 400)
+        self.setWindowTitle("FNB e-Assist Dashboard")
+        self.setFixedSize(1366, 768)  # FIXED size window
+        self.setStyleSheet("background-color: white;")
 
-        self.layout = QtWidgets.QVBoxLayout()
+        central_widget = QtWidgets.QWidget()
+        self.setCentralWidget(central_widget)
 
-        self.label = QtWidgets.QLabel("Choose a question or ask your own:")
-        self.layout.addWidget(self.label)
+        main_layout = QtWidgets.QVBoxLayout(central_widget)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
-        # Predefined Questions A–E
-        self.btnA = QtWidgets.QPushButton("A. What is my current account balance?")
-        self.btnB = QtWidgets.QPushButton("B. Show my recent transactions")
-        self.btnC = QtWidgets.QPushButton("C. How can I open a savings account?")
-        self.btnD = QtWidgets.QPushButton("D. Explain my credit card charges")
-        self.btnE = QtWidgets.QPushButton("E. Help me set up a budget")
+        # TOP IMAGE - fixed height
+        self.top_image = QtWidgets.QLabel()
+        top_pixmap = QtGui.QPixmap("images/top_desktop.png")
+        scaled_top = top_pixmap.scaledToWidth(1366, QtCore.Qt.SmoothTransformation)
+        self.top_image.setPixmap(scaled_top)
+        self.top_image.setFixedHeight(436)  #
+        self.top_image.setAlignment(QtCore.Qt.AlignTop | QtCore.Qt.AlignHCenter)
+        main_layout.addWidget(self.top_image)
 
-        for btn in [self.btnA, self.btnB, self.btnC, self.btnD, self.btnE]:
-            self.layout.addWidget(btn)
+        # BUTTON - center aligned
+        self.ask_button = QtWidgets.QPushButton("Ask E-Assist")
+        self.ask_button.setFixedSize(700, 70)  # Wider button
+        self.ask_button.setStyleSheet("""
+            QPushButton {
+                background-color: #FFD100;
+                color: #002663;
+                font-size: 24px;
+                font-weight: bold;
+                border-radius: 12px;
+            }
+            QPushButton:hover {
+                background-color: #e6b800;
+            }
+        """)
 
-        # Connect buttons
-        self.btnA.clicked.connect(lambda: self.ask_gpt("What is my current account balance?"))
-        self.btnB.clicked.connect(lambda: self.ask_gpt("Show my recent transactions"))
-        self.btnC.clicked.connect(lambda: self.ask_gpt("How can I open a savings account?"))
-        self.btnD.clicked.connect(lambda: self.ask_gpt("Explain my credit card charges"))
-        self.btnE.clicked.connect(lambda: self.ask_gpt("Help me set up a budget"))
+        button_layout = QtWidgets.QHBoxLayout()
+        button_layout.addStretch()
+        button_layout.addWidget(self.ask_button)
+        button_layout.addStretch()
+        main_layout.addLayout(button_layout)
 
-        # Custom user question input
-        self.inputBox = QtWidgets.QLineEdit()
-        self.inputBox.setPlaceholderText("Type your own question here...")
-        self.layout.addWidget(self.inputBox)
+        # Spacer to push the bottom image to bottom
+        spacer = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        main_layout.addItem(spacer)
 
-        self.submitBtn = QtWidgets.QPushButton("Submit")
-        self.submitBtn.clicked.connect(self.submit_custom_question)
-        self.layout.addWidget(self.submitBtn)
+        # BOTTOM IMAGE - fixed height 250 (adjusted size)
+        self.bottom_image = QtWidgets.QLabel()
+        bottom_pixmap = QtGui.QPixmap("images/bottom_widgets.jpg")  # Adjusted to 1366x250 in your editor
+        scaled_bottom = bottom_pixmap.scaled(1366, 250, QtCore.Qt.IgnoreAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.bottom_image.setPixmap(scaled_bottom)
+        self.bottom_image.setFixedHeight(250)
+        self.bottom_image.setAlignment(QtCore.Qt.AlignCenter)
+        main_layout.addWidget(self.bottom_image)
 
-        self.setLayout(self.layout)
+        self.ask_button.clicked.connect(self.open_e_assist_feature)
 
-    def ask_gpt(self, question):
-        response = send_to_gpt(question)
-        save_to_history(question, response)
-        self.response_window = ResponsePage(response)
-        self.response_window.show()
-
-    def submit_custom_question(self):
-        question = self.inputBox.text().strip()
-        if question:
-            self.ask_gpt(question)
-        else:
-            QtWidgets.QMessageBox.warning(self, "Oops!", "Please enter a question first.")
+    def open_e_assist_feature(self):
+        self.e_assist_window = Eassist(username=self.username)
+        self.e_assist_window.show()

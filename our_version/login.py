@@ -4,16 +4,18 @@ from dashboard import Dashboard
 
 class Ui_LoginWindow(object):
     def beginLogin(self, LoginWindow):
+        self.window = LoginWindow  
+
         LoginWindow.setWindowTitle("FNB - Login")
-        LoginWindow.resize(1366, 768)  
-        LoginWindow.setStyleSheet("background-color: #f5f5f5;")  # Light background
+        LoginWindow.resize(1366, 768)
+        LoginWindow.setStyleSheet("background-color: #f5f5f5;")
 
         self.centralwidget = QtWidgets.QWidget(LoginWindow)
         layout = QtWidgets.QVBoxLayout(self.centralwidget)
         layout.setContentsMargins(100, 100, 100, 100)
         layout.setSpacing(20)
 
-        # FNB Logo 
+        # FNB Logo
         self.logo = QtWidgets.QLabel()
         self.logo.setPixmap(QtGui.QPixmap("images/fnb_logo.png").scaled(300, 300, QtCore.Qt.KeepAspectRatio))
         self.logo.setAlignment(QtCore.Qt.AlignCenter)
@@ -85,7 +87,6 @@ class Ui_LoginWindow(object):
         msg.exec_()
 
     def open_dashboard(self):
-        self.window = Dashboard(self.username_input.text())
-        self.window.show()
-        self.centralwidget.window().close()
-
+        self.dashboard = Dashboard(self.username_input.text())
+        self.dashboard.show()
+        self.window.close()  # Close the login window properly here
